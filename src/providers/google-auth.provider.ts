@@ -46,22 +46,6 @@ export class GoogleAuthProvider implements AuthProvider<OAuth2Client> {
 		return client;
 	}
 
-	async buildAuthUrl(vaultBasePath: string): Promise<string> {
-		const redirectUri = this.getRedirectUri(vaultBasePath);
-		const client = new OAuth2Client({
-			clientId: this.getClientConfig(vaultBasePath).client_id,
-			clientSecret: this.getClientConfig(vaultBasePath).client_secret,
-			redirectUri,
-		});
-		return client.generateAuthUrl({
-			access_type: 'offline',
-			scope: SCOPES,
-			prompt: 'consent',
-			redirect_uri: redirectUri,
-			include_granted_scopes: true,
-		});
-	}
-
 	private createClient(vaultBasePath: string): OAuth2Client {
 		const config = this.getClientConfig(vaultBasePath);
 		const redirectUri = this.resolveRedirectUri(config.redirect_uris);
